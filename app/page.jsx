@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Carousel from '../components/carousel'
+import Testimonials from '../components/testimonials'
 
 
 export default function Home() {
@@ -52,10 +53,17 @@ export default function Home() {
         </div>
       </section>
       {/* ------------------- */}
-      <section className='bg-white w-full'>
-        <h1 className='text-center mb-4'>Fav shots</h1>
-        <div className=''>
+      <section className='bg-white w-full py-4'>
+        <h1 className='text-center mb-4 font-semibold'>Fav shots</h1>
+        <div>
           <Carousel />
+        </div>
+      </section>
+      {/* ------------------- */}
+      <section className='bg-white w-full py-4'>
+        <h1 className='text-center mt-2 mb-4 font-semibold'>Clients Testimonials</h1>
+        <div>
+          <Testimonials />
         </div>
       </section>
     </main>
