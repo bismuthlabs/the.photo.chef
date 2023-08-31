@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
 import Carousel from '../components/carousel'
 import Testimonials from '../components/testimonials'
+import Share from '../components/share'
+import Contact from '../components/contact'
 
 
 export default function Home() {
@@ -28,6 +28,12 @@ export default function Home() {
             alt="profile photo" 
             className=''
             />
+          </div>
+        </div>
+        {/* Share */}
+        <div className='relative'>
+          <div className='absolute right-8 top-3'>
+            <Share />
           </div>
         </div>
         {/* Info & Links */}
@@ -64,6 +70,14 @@ export default function Home() {
         <h1 className='text-center mt-2 mb-4 font-semibold'>Clients Testimonials</h1>
         <div>
           <Testimonials />
+        </div>
+      </section>
+      {/* -------------------- */}
+      <section className='bg-white w-full py-4'>
+        <h1 className='text-center mt-2 font-semibold'>Contact me</h1>
+        <p className='text-center my-2'>Models! Let's create something beautiful together!</p>
+        <div>
+          <Contact />
         </div>
       </section>
     </main>
