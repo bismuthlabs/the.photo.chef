@@ -5,9 +5,9 @@ export const Context = createContext();
 
 export const ContextProvider = ({ children }) => {
   //this state is for just client side validation and rendering ui
-  const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+
+  const [currentUser, setCurrentUser] = useState(null);
+
   const login = async (requestData) => {
     fetch("/api/login", {
       method: "POST",
@@ -40,8 +40,13 @@ export const ContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(currentUser));
-    console.log(currentUser);
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setCurrentUser(storedUser);
+  }, []);
+  useEffect(() => {
+    if (currentUser !== null) {
+      localStorage.setItem("user", JSON.stringify(currentUser));
+    }
   }, [currentUser]);
 
   return (
