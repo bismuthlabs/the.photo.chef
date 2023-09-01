@@ -1,4 +1,10 @@
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import app from "./config";
 
 // Obtain Firestore instance
@@ -30,7 +36,6 @@ export const updateDocument = async (
 ) => {
   try {
     const documentRef = doc(db, collectionName, documentId);
-
     await updateDoc(documentRef, updatedData);
     console.log("Document successfully updated!");
     return { msg: "Document successfully updated!", success: true };

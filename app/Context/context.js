@@ -43,6 +43,7 @@ export const ContextProvider = ({ children }) => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     setCurrentUser(storedUser);
   }, []);
+
   useEffect(() => {
     if (currentUser !== null) {
       localStorage.setItem("user", JSON.stringify(currentUser));

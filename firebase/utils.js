@@ -23,12 +23,14 @@ export const getPassword = async () => {
 };
 
 export const updateName = async (newName) => {
-  const res = await updateDocument(collectionName, "username", newName);
+  const updatedData = { name: newName };
+  const res = await updateDocument(collectionName, "username", updatedData);
   return res;
 };
 
 export const updateBio = async (newBio) => {
-  const res = await updateDocument(collectionName, "bio", newBio);
+  const updateBio = { bio: newBio };
+  const res = await updateDocument(collectionName, "bio", updateBio);
   return res;
 };
 

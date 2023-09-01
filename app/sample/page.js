@@ -1,11 +1,16 @@
 "use client";
 import React, { useState } from "react";
 import ProtectedPage from "../../components/ProtectedPage";
+import { updateName } from "@/firebase/utils";
 
 const page = () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
+
   const handleButtonClick = async () => {
     try {
+      console.log("sending" + value);
+      await updateName(value);
+      console.log("sent");
     } catch (e) {
       console.error(e);
     }
