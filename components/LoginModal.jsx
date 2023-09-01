@@ -1,8 +1,9 @@
+"use client";
 import { Context } from "@/app/Context/context";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const [passcode, setPasscode] = useState("");
+  const [passcode, setPasscode] = React.useState("");
   const { login, currentUser } = useContext(Context);
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -32,14 +33,14 @@ const LoginModal = ({ isOpen, onClose }) => {
       }`}
     >
       <div
-        className="absolute inset-0 bg-black opacity-30"
+        className="absolute inset-0  bg-black opacity-30 animate-fadeIn duration-500"
         onClick={() => {
           if (currentUser) {
             onClose();
           }
         }}
       ></div>
-      <div className="bg-white rounded p-8 shadow-2xl z-10">
+      <div className="bg-white rounded p-8 shadow-2xl z-10 animate-fade-in ">
         <h2 className="text-2xl font-semibold mb-4 text-black">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
