@@ -62,10 +62,10 @@ export default function Testimonials() {
                         alt="" 
                         />
                         <blockquote>
-                        <p className="text-gray-800 text-sm font-bold sm:text-xl">
+                        <p className="text-sm font-bold sm:text-sm">
                             “{item.quote}“
                         </p>
-                        <p>{item.name}</p>
+                        <p className="text-gray-600">@{item.name}</p>
                         </blockquote>
                     </div>
                   </figure>
