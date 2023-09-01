@@ -20,11 +20,17 @@ export const uploadFile = async (file) => {
   // Get the download URL
   try {
     const fileRef = ref(storage, filePath);
-    const downloadURL = await getDownloadURL(fileRef);
-    console.log("Download URL:", downloadURL);
-    return downloadURL;
+    const imgURL = await getDownloadURL(fileRef);
+
+    console.log("Download URL:", imgURL);
+    return { imgURL: downloadURL, img: filePath };
   } catch (error) {
     console.error("Error getting download URL", error);
     return null;
   }
+};
+
+const updateImage = async (prevImgPath, img) => {
+  //first delete previous one
+  //upload a new one
 };
