@@ -33,8 +33,8 @@ const TextPlaceholder = ({ numLines = 1, direction = "v", w = "full" }) => {
 // Image Placeholder Component
 const ImagePlaceholder = () => {
   return (
-    <div className="animate-pulse">
-      <div className="bg-gray-300 h-32 w-48 rounded"></div>
+    <div className="animate-pulse h-full">
+      <div className="bg-gray-300 h-full w-48 rounded"></div>
     </div>
   );
 };

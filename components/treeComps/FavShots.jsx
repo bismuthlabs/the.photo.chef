@@ -6,7 +6,6 @@ import { getFavShots } from "@/firebase/utils";
 
 const getComponentData = async () => {
   const res = await getFavShots();
-  console.log(res);
   return res.data.url;
 };
 

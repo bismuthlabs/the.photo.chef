@@ -49,6 +49,12 @@ export const getFavShots = async () => {
   const res = await getOneData("fav_images");
   return res;
 };
+
+export const getTestimonials = async () => {
+  const res = await getOneData("testimonials");
+  return res;
+};
+
 export const getAllData = async () => {
   const res = await getCollection(collectionName);
   return res;
