@@ -37,7 +37,7 @@ const CoverPhoto = () => {
         {isLoading ? (
           ""
         ) : (
-          <img src={data.profile_img} alt="profile photo" className="" />
+          <img src={data.profile_img} alt="profile photo" className="rounded-full h-24 w-24 object-cover" />
         )}
       </div>
     </div>
