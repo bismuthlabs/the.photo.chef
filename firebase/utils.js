@@ -2,6 +2,7 @@ import app from "../firebase/config";
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import { updateDocument, getCollection, getOneData } from "./firestore";
 import { async } from "@firebase/util";
+import { deleteImage, uploadFile } from "./storage";
 
 const db = getFirestore(app);
 const collectionName = "treeData";
@@ -75,4 +76,33 @@ export const updateBio = async (newBio) => {
 export const updateSocials = async (newSocials) => {
   const res = await updateDocument(collectionName, "profile_name", newSocials);
   return res;
+};
+
+export const updateProfilePath = async (newUrl, newPath) => {
+  const updateData = { url: { imgUrl: newUrl, imgPath: newPath } };
+  const res = await updateDocument(collectionName, "bio", updateBio);
+};
+
+export const updateProfile = async (file, prevImgPath) => {
+  //delete old image
+  const resp = await deleteImage(prevImgPath);
+
+  //upload image file
+  const res = await uploadFile(file, "profile-image");
+
+  const updateData = {
+    url: {
+      imgUrl: res.imgURL,
+      imgPath: `gs://auth-e623c.appspot.com${res.imgPath}`,
+    },
+  };
+
+  //update the profile image url
+  const res2 = await updateDocument(
+    collectionName,
+    "profile_image",
+    updateData
+  );
+  console.log(res2);
+  return res2;
 };

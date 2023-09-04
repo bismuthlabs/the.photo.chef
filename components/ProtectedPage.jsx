@@ -8,7 +8,7 @@ const ProtectedPage = ({ children }) => {
   const { currentUser } = useContext(Context);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {currentUser ? null : <LoginModal isOpen={isOpen} onClose={onClose} />}
+      {currentUser ? null : <LoginModal />}
       {children}
     </div>
   );

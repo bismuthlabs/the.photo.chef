@@ -1,16 +1,23 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import app from "./config"; // Your Firebase configuration file
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage(app);
 
 /**
  *this file uploads a file and and return the image link
  * @param {string} file - the file object to upload
  *@returns {{string, string}} promise that resolves into {imgUrl, imgPath}
  */
-export const uploadFile = async (file) => {
+export const uploadFile = async (file, path) => {
   //upload image file
-  const filePath = `posts-images/${file.name}`;
+  const filePath = `${path}/${file.name}`;
+  console.log("here" + filePath);
   try {
     // Generate a unique file name
     const storageRef = ref(storage, filePath);
@@ -20,14 +27,13 @@ export const uploadFile = async (file) => {
   } catch (error) {
     console.error("Error uploading file", error);
   }
-  console.log(filePath);
   // Get the download URL
   try {
     const fileRef = ref(storage, filePath);
     const imgURL = await getDownloadURL(fileRef);
 
     console.log("Download URL:", imgURL);
-    return { imgURL: downloadURL, imgPath: filePath };
+    return { imgURL: imgURL, imgPath: filePath };
   } catch (error) {
     console.error("Error getting download URL", error);
     return null;
@@ -69,8 +75,10 @@ export const deleteImage = (imagePath) => {
  * @param {File} currentFile - The path to the image in Firebase Storage.
  *@returns {{string, string}} promise that resolves into {imgUrl, imgPath}
  */
-export const updateImage = async (prevImgPath, currentFile) => {
+export const updateImage = async (currentFile, prevImgPath) => {
   //first delete previous one
+  if (prevImgPath === null) {
+  }
   const deleted = await deleteImage(prevImgPath);
   if (!deleted) return;
   //upload a new one

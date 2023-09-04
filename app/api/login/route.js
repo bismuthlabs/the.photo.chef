@@ -5,7 +5,8 @@ import { cookies } from "next/headers";
 import { getPassword } from "../../../firebase/utils";
 
 export async function GET(request) {
-  return NextResponse.json("hii");
+  console.log(process.env.SECRET_KEY);
+  return NextResponse.json("API is working!");
 }
 
 export async function POST(request) {
@@ -22,9 +23,19 @@ export async function POST(request) {
   }
 
   console.log(passcode + "code:" + code + "body:" + req.body);
-  if (code === passcode) {
-    //creating cookie
-    const token = jwt.sign({authed: passcode}, "my-key", { expiresIn: "1h" });
+  // if (code === passcode) {
+  if (true) {
+    //delete this line and replace with prev
+
+    //generating token
+    const token = jwt.sign(
+      { auth_key: process.env.SECRET_KEY },
+      process.env.JWT_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
+    //setting cookie
     cookies().set({
       name: "auth",
       value: token,

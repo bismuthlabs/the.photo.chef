@@ -2,13 +2,14 @@
 import { Context } from "@/app/Context/context";
 import React, { useContext } from "react";
 
-const LoginModal = ({ isOpen, onClose }) => {
+const LoginModal = () => {
   const [passcode, setPasscode] = React.useState("");
   const { login, currentUser } = useContext(Context);
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
-
+  const [isOpen, setIsOpen] = React.useState(true);
+  const onClose = () => setIsOpen(false);
   const handlePasswordChange = (event) => {
     setPasscode(event.target.value);
   };
@@ -33,14 +34,10 @@ const LoginModal = ({ isOpen, onClose }) => {
       }`}
     >
       <div
-        className="absolute inset-0  bg-black opacity-30 animate-fadeIn duration-500"
-        onClick={() => {
-          if (currentUser) {
-            onClose();
-          }
-        }}
+        className="absolute inset-0  bg-black opacity-30 cursor-pointer"
+        onClick={() => {}}
       ></div>
-      <div className="bg-white rounded p-8 shadow-2xl z-10 animate-fade-in ">
+      <div className="bg-white rounded p-8 shadow-2xl z-10  ">
         <h2 className="text-2xl font-semibold mb-4 text-black">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
