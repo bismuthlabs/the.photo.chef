@@ -4,8 +4,12 @@ import ProfileandName from "@/components/admin-edit/ProfileandName";
 import { getAllData } from "@/firebase/utils";
 
 const getComponentData = async () => {
-  const res = await getAllData();
-  return res;
+  try {
+    const res = await getAllData();
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 function findObjectById(data, targetId) {

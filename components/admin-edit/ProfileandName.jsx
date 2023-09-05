@@ -1,8 +1,9 @@
 "use client";
+import { deleteImage } from "@/firebase/storage";
 import { updateName, updateProfile } from "@/firebase/utils";
 import Image from "next/image";
 import React, { useState } from "react";
-import { uploadFile } from "@/firebase/storage";
+import AvatarEditor from "react-avatar-editor";
 
 const ProfileandName = ({ data }) => {
   const { name, profile_image } = data;
@@ -83,6 +84,34 @@ const UpdateImage = ({ data }) => {
   const [selectedFile, setSelectedFile] = useState(null); // file[0
   const [loading, setLoading] = useState(false);
   const [shouldUpdate, setShouldUpdate] = useState(false);
+  /*-States for image editor*/
+  const [editImage, setEditImage] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [editor, setEditor] = useState(null);
+  const handleScaleChange = (e) => {
+    const newScale = parseFloat(e.target.value);
+    setScale(newScale);
+  };
+
+  const handleSave = () => {
+    console.log("handle save");
+    if (editor) {
+      const canvas = editor.getImageScaledToCanvas();
+      canvas.toBlob((blob) => {
+        // `blob` now contains the edited image as a Blob object
+        if (blob) {
+          // You can upload the `blob` to Firebase Storage or process it as needed.
+          console.log("Edited image Blob:", blob);
+          const file = convertBlobToFile(blob, "profile.jpg", "image/jpeg");
+          setSelectedFile(file);
+          console.log(file);
+          setSelectedImage(URL.createObjectURL(blob));
+        }
+      }, "image/jpeg");
+      // Now you can upload `canvas.toDataURL()` to Firebase Storage or process it as needed.
+    }
+  }; /*end of image editor states and functions*/
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -94,11 +123,15 @@ const UpdateImage = ({ data }) => {
 
   const handleImageUpdate = async () => {
     setLoading(true);
-    const res = await updateProfile(selectedFile, data.imgPath);
-    console.log("updating profile");
-    console.log(res);
-    setLoading(false);
-    setShouldUpdate(false);
+    try {
+      const res = await updateProfile(selectedFile, data.imgPath);
+      console.log("updating profile...");
+      console.log(res);
+      setLoading(false);
+      setShouldUpdate(false);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <>
@@ -140,6 +173,42 @@ const UpdateImage = ({ data }) => {
           </label>
         )}
       </div>
+
+      {/* Edit Image */}
+      {true ? (
+        <div>
+          <AvatarEditor
+            ref={(editor) => setEditor(editor)}
+            image={selectedImage}
+            width={400}
+            height={400}
+            border={100}
+            crossOrigin={"use-credentials"}
+            scale={scale}
+          />
+          <input
+            type="range"
+            min="1"
+            max="2"
+            step="0.01"
+            value={scale}
+            onChange={handleScaleChange}
+          />
+          <button onClick={handleSave}>Save</button>
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 };
+
+function convertBlobToFile(blob, fileName, fileType = "image/jpeg") {
+  // Create an array with the blob as its only item
+  const blobArray = [blob];
+
+  // Create a new File object with the specified name and type
+  const file = new File(blobArray, fileName, { type: fileType });
+
+  return file;
+}

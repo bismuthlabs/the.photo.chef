@@ -84,25 +84,30 @@ export const updateProfilePath = async (newUrl, newPath) => {
 };
 
 export const updateProfile = async (file, prevImgPath) => {
-  //delete old image
-  const resp = await deleteImage(prevImgPath);
+  //deleting image
 
-  //upload image file
-  const res = await uploadFile(file, "profile-image");
+  const res1 = await deleteImage(prevImgPath);
 
-  const updateData = {
-    url: {
-      imgUrl: res.imgURL,
-      imgPath: `gs://auth-e623c.appspot.com${res.imgPath}`,
-    },
-  };
+  if (res1.success) {
+    console.log("image deleted");
 
-  //update the profile image url
-  const res2 = await updateDocument(
-    collectionName,
-    "profile_image",
-    updateData
-  );
-  console.log(res2);
-  return res2;
+    //upload image file
+    const res = await uploadFile(file, "profile-image");
+    if (res) {
+      const updateData = {
+        url: {
+          imgUrl: res.imgURL,
+          imgPath: `gs://auth-e623c.appspot.com/${res.imgPath}`,
+        },
+      };
+      //update the profile image url
+      const res2 = await updateDocument(
+        collectionName,
+        "profile_image",
+        updateData
+      );
+      console.log(res2);
+      return res2;
+    }
+  }
 };

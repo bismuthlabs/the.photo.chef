@@ -53,9 +53,8 @@ export const deleteImage = (imagePath) => {
   const imageRef = ref(storage, imagePath);
 
   // Delete the image
-  deleteObject(imageRef)
+  const res = deleteObject(imageRef)
     .then(() => {
-      console.log(`Image ${imagePath} deleted successfully`);
       return {
         msg: `Image ${imagePath} deleted successfully`,
         success: true,
@@ -63,8 +62,9 @@ export const deleteImage = (imagePath) => {
     })
     .catch((error) => {
       console.error(`Error deleting image ${imagePath}:`, error);
-      return { msg: `Image ${imagePath} deleted successfully`, success: false };
+      return { msg: `Image could not be deleted`, success: false };
     });
+  return res;
 };
 
 //this function updates the an already saved file with a new one
